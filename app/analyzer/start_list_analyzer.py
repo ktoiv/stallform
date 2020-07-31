@@ -14,12 +14,9 @@ def get_todays_horses():
     cards = list(filter(lambda c: c['country'] == 'SE', cards))
 
     for card in cards:
-        print('Generating %s...' % card['trackName'])
         races = fetch_races_for_card(card)
         card['races'] = [_handle_race(race, card['trackAbbreviation']) for race in races]
-        card_list.append(card)
-        break
-    
+        card_list.append(card)    
     return card_list
             
             
