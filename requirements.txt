@@ -1,0 +1,6 @@
+pymongo==3.10.1
+requests==2.24.0
+dnspython
+numpy==1.19
+jinja2
+pdfkit

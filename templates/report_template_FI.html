@@ -1,0 +1,96 @@
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+    {% for card in cards%}
+
+        <h2>{{ card['trackName'] }}</h2>
+
+        {% for race in card['races'] %}
+            <h3>{{ race['number'] }}</h3>
+            <h3>{{ race['distance']}}</h3>
+            
+            <br>
+            <br>
+            <br>
+            
+            {% for horse in race['horses'] %}
+
+                <h4>{{ horse['start_number'] }} {{ horse['name'] }}</h4>
+                <p>Valmentaja: <strong> {{ horse['coach_name']}}</strong></p>
+                <p>Ohjastaja: <strong> {{ horse['driver_name']}}</strong></p>
+
+                {% if horse['front_shoes'] %}
+                    <b>Etukengät: KYLLÄ</b>
+                {% else %}
+                    <b>Etukengät: EI</b>
+                {% endif %}
+                <br>
+                {% if horse['rear_shoes'] %}
+                    <b>Takakengät: KYLLÄ</b>
+                {% else %}
+                    <b>Takakengät: EI</b>
+                {% endif %}
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                          <th>Valmentajan voittoprosentti 12kk</th>
+                          <th>Valmentajan voittoprosentti 1kk</th>
+                          <th>Valmentajan voittoprosentti tällä radalla</th>
+                          <th>Valmentajan voittoprosentti ohjastajan kanssa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{horse['win_rate']}}</td>
+                            <td>{{horse['win_rate_month']}}</td>
+                            <td>{{horse['win_rate_track']}}</td>
+                            <td>{{horse['win_rate_with_driver']}}</td>
+                          </tr>
+                    </tbody>
+                </table>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                          <th>Hevosen voittoprosentti 12kk</th>
+                          <th>Hevosen voittoprosentti tällä kengityksellä 12kk</th>
+                          <th>Hevosen rahat/startti koko uralta</th>
+                          <th>Hevosen rahat/startti tältä vuodelta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{horse['horse_win_rate']}}</td>
+                            <td>{{horse['horse_win_rate_with_shoes']}}</td>
+                            <td>{{horse['total']}}€</td>
+                            <td>{{horse['current_year']}}€</td>
+                          </tr>
+                    </tbody>
+                </table>
+
+                <h4> Normalisoidut ajat </h4>
+                <ul>
+                    {% for time in horse['normalized_times'] %}
+                        <li><h5><b>{{time}}</b></h5></li>
+                    {%endfor%}
+                </ul>
+                <br>
+                <br>
+
+            {%endfor%}
+
+            <br>
+            <br>
+
+        {%endfor%}
+
+        <hr>
+    {%endfor%}
+
+</body>
