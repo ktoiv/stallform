@@ -25,14 +25,13 @@ template = env.get_template('report_template_FI.html')
 content = template.render(cards=cards)
 
 sender_email = "stallform@gmail.com"
-receiver_email = os.environ['RECEIVER_MAIL']
+receiver_emails = os.environ['RECEIVER_MAIL'].split(';')
 password = os.environ['MAIL_PASSWORD']
 
 
 message = MIMEMultipart("alternative")
 message["Subject"] = 'Raviraportti {}.{}.{}'.format(date.today().day, date.today().month, date.today().year)
 message["From"] = sender_email
-message["To"] = receiver_email
 
 part = MIMEText(content, 'html')
 
@@ -43,6 +42,9 @@ context = ssl.create_default_context()
 
 with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
     server.login(sender_email, password)
-    server.sendmail(
-        sender_email, receiver_email, message.as_string()
-    )
+    for receiver_email in receiver_emails:
+        message["To"] = receiver_email
+
+        server.sendmail(
+            sender_email, receiver_email, message.as_string()
+        )
