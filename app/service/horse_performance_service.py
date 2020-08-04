@@ -129,7 +129,10 @@ def trim_horse_to_analyze(json_horse):
     result['start_number'] = json_horse['startNumber']
     result['name'] = json_horse['horseName']
     result['coach_name'] = json_horse['coachName']
-    result['driver_name'] = json_horse['driverName']
+    if 'driverName' in json_horse.keys():
+        result['driver_name'] = json_horse['driverName']
+    else:
+        result['driver_name'] = 'Unknown'
     result['stats'] = json_horse['stats']
     result['prev_starts'] = json_horse['prevStarts']
     result['front_shoes'] = json_horse['frontShoes'] == 'HAS_SHOES'
