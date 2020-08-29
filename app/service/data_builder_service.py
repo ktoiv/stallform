@@ -17,7 +17,13 @@ def _create_db_dict(date, card, race, horse, winner, time):
     horse['year'] = date.year
     horse['day'] = date.day
     horse['month'] = date.month
-    horse['breed'] = race['breed']
+
+    if race['breed']:
+        horse['breed'] = race['breed']
+    else:
+        horse['breed'] = 'L'
+
+        
     horse['car_start'] = race['startType'] == 'CAR_START'
     
     del horse['rearShoes']
