@@ -23,7 +23,7 @@ def _create_db_dict(date, card, race, horse, winner, time):
     else:
         horse['breed'] = 'L'
 
-        
+
     horse['car_start'] = race['startType'] == 'CAR_START'
     
     del horse['rearShoes']
@@ -47,9 +47,18 @@ def add_dates_performances_to_database(date, data_accessor):
             horses = fetch_horses_for_race(race)
             winner, time = fetch_winner_and_time_for_race(race)
 
-            performance_list.extend([_create_db_dict(date, card, race, horse, winner, time) for horse in horses])
-    
+            race_performances = []
 
+            for horse in horses:
+                try:
+                   horse_dict = _create_db_dict(date, card, race, horse, winner, time) 
+                   race_performances.append(horse_dict)
+                except KeyError:
+                    continue
+
+            performance_list.extend(race_performances)
+
+    
     data_accessor.insert_many(performance_list)
 
 
