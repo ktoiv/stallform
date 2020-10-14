@@ -12,9 +12,9 @@ from app.service.data_update_service import init_db_connection, update_database
 
 
 
-
 init_db_connection()
 update_database()
+
 
 cards = get_todays_horses()
 
@@ -44,7 +44,7 @@ with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
     server.login(sender_email, password)
     for receiver_email in receiver_emails:
         message["To"] = receiver_email
-
+        print('sending email to', receiver_email)
         server.sendmail(
             sender_email, receiver_email, message.as_string()
         )

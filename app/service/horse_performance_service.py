@@ -118,13 +118,15 @@ def fetch_horses_for_future_race(race):
     url = f'{veikkaus_api_base_url}{veikkaus_api_horses_url}'
     response = requests.get(url, headers=headers)
     json_horse_list = json.loads(response.text)['collection']
-
-    horses = [trim_horse_to_analyze(json_horse) for json_horse in json_horse_list]
+    breed = race['breed']
+    distance = race['distance']
+    car = race['startType'] == 'CAR_START'
+    horses = [trim_horse_to_analyze(json_horse, breed, distance, car) for json_horse in json_horse_list]
 
     return horses
 
 
-def trim_horse_to_analyze(json_horse):
+def trim_horse_to_analyze(json_horse, breed, distance, car):
     result = {}
     result['start_number'] = json_horse['startNumber']
     result['name'] = json_horse['horseName']
@@ -137,6 +139,10 @@ def trim_horse_to_analyze(json_horse):
     result['prev_starts'] = json_horse['prevStarts']
     result['front_shoes'] = json_horse['frontShoes'] == 'HAS_SHOES'
     result['rear_shoes'] = json_horse['rearShoes'] == 'HAS_SHOES'
+    result['breed'] = breed
+    result['distance'] = distance
+    result['start_track'] = json_horse['startTrack']
+    result['car_start'] = car
 
     return result
 

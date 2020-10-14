@@ -3,7 +3,8 @@ from datetime import date, timedelta
 from app.database.data_accessor import DataAccessor
 from app.service.data_builder_service import build_data_from_date
 from app.service.scalar_calculation_service import calculate_averages_for_distances, calculate_averages_for_seasons, calculate_averages_for_start_types, calculate_scalars_for_tracks
-
+from app.service.stat_update_service import remove_old_stats, update_stats
+from app.service.neural_network_service import train_neural_network
 
 def init_db_connection():
     global track_accessor, distance_accessor, winter_accessor, type_accessor, performance_accessor
@@ -34,6 +35,9 @@ def update_database():
     if date.today().day == 1:
         _remove_old_data()
         _recalculate_scalars()
+        remove_old_stats()
+        update_stats()
+        train_neural_network()
 
 def _recalculate_scalars():
     global track_accessor, distance_accessor, winter_accessor, type_accessor, performance_accessor
