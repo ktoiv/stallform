@@ -51,6 +51,10 @@ def _handle_horse(horse, track):
     horse_dict.update(calculate_horses_money_for_race(horse))
     horse_dict.update(horse)
     horse_dict['normalized_times'] = normalize_prev_starts(horse)
+
+    times = [time for time in horse_dict['normalized_times'] if time != -1]
+    horse_dict['avg_time'] = round((sum(times) / len(times)), 1)
+
     horse_dict['horse_win_rate_with_shoes'] = calculate_horse_win_with_shoes(horse)
     horse_dict['horse_win_rate'] = calculate_horse_win(horse)
     del horse_dict['prev_starts']
