@@ -4,6 +4,6 @@ dnspython
 numpy==1.19
 jinja2
 pdfkit
-tensorflow==2.2
+tensorflow==2.9.3
 keras==2.3
 scipy
